@@ -1,13 +1,19 @@
 from django.db import models
+from datetime import datetime
+from django.utils.timezone import now
 
 
 class Category(models.Model):
     category = models.CharField(max_length=20)
     category_en = models.CharField(max_length=20)
     category_image = models.CharField(max_length=300)
+    pub_date = models.DateTimeField(default=now())
 
     def __str__(self):
         return self.category
+
+    def get_absolute_url(self):
+        return '/category/{}/'.format(self.id)
 
 
 class Post(models.Model):
@@ -20,11 +26,15 @@ class Post(models.Model):
     img = models.CharField(max_length=300, blank=True)
     img_alt = models.CharField(max_length=100, blank=True)
     vid = models.CharField(max_length=300, blank=True)
+    pub_date = models.DateTimeField(default=now())
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return '/{}/'.format(self.id)
 
 
 class Section(models.Model):
