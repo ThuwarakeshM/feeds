@@ -1,0 +1,53 @@
+{% extends 'feeds/index.html' %}
+
+{% block seo %}
+    <title>KinyMony: {{ page_title }}</title>
+    <meta name="description" content="{{ page_desc }}">
+    <meta name="keywords" content="{{ page_keywords }}">
+    <meta name="author" content="Kinymony News Feeds">
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="KinyMony: {{ page_title }}"/>
+    <meta property="og:description" content="{{ page_desc }}"/>
+    <meta property="og:url" content="http://www.kinymony.com/"/>
+    <meta property="og:image" content="{{ category_image }}"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        {% if posts %}
+            <div class="row">
+                {% for post in posts %}
+
+                    <div class="col-sm-12 col-md-4">
+                        <div class="card" style="width: 100%; height: 100%">
+                            <img class="card-img-top" src="{{ post.img }}" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ post.title }}</h5>
+                                <p class="card-text">{{ post.desc }}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/{{ post.id }}" class="btn btn-primary">மேலும் படிக்க</a>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <nav class="change_pages">
+        <ul class="pagination">
+            {% if prev_page %}
+                <li class="page-item"><a class="page-link prev_page" href="{{ prev_page }}">Previous</a></li>
+            {% endif %}
+            {% if next_page %}
+                <li class="page-item"><a class="page-link next_page" href="{{ next_page }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+
+{% endblock %}
