@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.utils.timezone import now
+from django.contrib.sitemaps import ping_google
 
 
 class Category(models.Model):
@@ -14,6 +15,15 @@ class Category(models.Model):
 
     def get_absolute_url(self):
         return '/category/{}/'.format(self.id)
+
+    def save(self, force_insert=False, force_update=False):
+        super().save(force_insert, force_update)
+        try:
+            ping_google()
+        except Exception:
+            pass
+
+
 
 
 class Post(models.Model):
@@ -36,6 +46,13 @@ class Post(models.Model):
     def get_absolute_url(self):
         return '/{}/'.format(self.id)
 
+    def save(self, force_insert=False, force_update=False):
+        super().save(force_insert, force_update)
+        try:
+            ping_google()
+        except Exception:
+            pass
+
 
 class Section(models.Model):
     title = models.CharField(max_length=300, blank=True)
@@ -47,3 +64,5 @@ class Section(models.Model):
 
     def __str__(self):
         return self.title
+
+
